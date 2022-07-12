@@ -7,18 +7,18 @@ import (
 
 type URLRepository struct {
 	store *Store
-	urls  map[string]*model.URL
+	urls  map[int]*model.URL
 }
 
 func (r *URLRepository) Add(u *model.URL) error {
-	r.urls[u.ShortenedURL] = u
 	u.ID = len(r.urls)
+	r.urls[u.ID] = u
 
 	return nil
 }
 
-func (r *URLRepository) FindByShortenedURL(shortenedRL string) (*model.URL, error) {
-	u, isOk := r.urls[shortenedRL]
+func (r *URLRepository) FindById(shortenedURLId int) (*model.URL, error) {
+	u, isOk := r.urls[shortenedURLId]
 	if !isOk {
 		return nil, store.ErrRecordNotFound
 	}

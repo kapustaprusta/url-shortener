@@ -20,7 +20,7 @@ func (s *Store) URL() store.URLRepository {
 
 	s.urlRepository = &URLRepository{
 		store: s,
-		urls:  make(map[string]*model.URL),
+		urls:  make(map[int]*model.URL),
 	}
 
 	return s.urlRepository

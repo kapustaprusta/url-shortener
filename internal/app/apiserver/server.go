@@ -4,13 +4,14 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/kapustaprusta/url-shortener/internal/app/model"
 	"github.com/kapustaprusta/url-shortener/internal/app/store"
 )
 
 const (
-	baseURL = "http://www.link.com"
+	baseURL = "http://localhost:8080/"
 )
 
 type server struct {
@@ -85,12 +86,12 @@ func (s *server) handleShortenRequest(w http.ResponseWriter, r *http.Request) {
 	s.store.URL().Add(url)
 
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(url.ShortenedURL))
+	w.Write([]byte(url.ShortenedURL + "?id=" + strconv.Itoa(url.ID)))
 }
 
 func (s *server) handleGetOriginalURL(w http.ResponseWriter, r *http.Request) {
-	shortenedURL := r.URL.Query().Get("id")
-	if shortenedURL == "" {
+	queryShortenedURLId := r.URL.Query().Get("id")
+	if queryShortenedURLId == "" {
 		http.Error(
 			w,
 			"The query parameter is missing",
@@ -100,7 +101,18 @@ func (s *server) handleGetOriginalURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	url, err := s.store.URL().FindByShortenedURL(shortenedURL)
+	shortenedURLId, err := strconv.Atoi(queryShortenedURLId)
+	if err != nil {
+		http.Error(
+			w,
+			"Bad shortened URL ID",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
+
+	url, err := s.store.URL().FindById(shortenedURLId)
 	if err != nil {
 		http.Error(
 			w,
