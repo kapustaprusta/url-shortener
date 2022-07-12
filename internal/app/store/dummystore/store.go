@@ -13,7 +13,7 @@ func NewStore() *Store {
 	return &Store{}
 }
 
-func (s *Store) Url() store.URLRepository {
+func (s *Store) URL() store.URLRepository {
 	if s.urlRepository != nil {
 		return s.urlRepository
 	}

@@ -82,7 +82,7 @@ func (s *server) handleShortenRequest(w http.ResponseWriter, r *http.Request) {
 		ShortenedURL: baseURL,
 	}
 
-	s.store.Url().Add(url)
+	s.store.URL().Add(url)
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte(url.ShortenedURL))
@@ -100,7 +100,7 @@ func (s *server) handleGetOriginalURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	url, err := s.store.Url().FindByShortenedURL(shortenedURL)
+	url, err := s.store.URL().FindByShortenedURL(shortenedURL)
 	if err != nil {
 		http.Error(
 			w,
