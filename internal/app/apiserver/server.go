@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	baseURL = "www.link.com"
+	baseURL = "http://www.link.com"
 )
 
 type server struct {
