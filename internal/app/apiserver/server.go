@@ -1,7 +1,6 @@
 package apiserver
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -79,10 +78,8 @@ func (s *server) handleShortenRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	url := &model.Url{
-		OriginalUrl: originalUrl,
-		ShortenedUrl: fmt.Sprint(
-			baseUrl + originalUrl[0:len(originalUrl)/2],
-		),
+		OriginalUrl:  originalUrl,
+		ShortenedUrl: baseUrl + originalUrl[0:len(originalUrl)/2],
 	}
 
 	s.store.Url().Add(url)

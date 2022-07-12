@@ -13,7 +13,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&configPath, "config-path", "configs/apiserver.toml", "path to configuration file")
+	flag.StringVar(&configPath, "config-path", "/Users/vladislav.nikishov/src/golang/yandex/praktikum/url-shortener/configs/apiserver.toml", "path to configuration file")
 }
 
 func main() {
