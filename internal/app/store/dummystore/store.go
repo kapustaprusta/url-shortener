@@ -6,21 +6,21 @@ import (
 )
 
 type Store struct {
-	urlRepository *UrlRepository
+	urlRepository *URLRepository
 }
 
 func NewStore() *Store {
 	return &Store{}
 }
 
-func (s *Store) Url() store.UrlRepository {
+func (s *Store) Url() store.URLRepository {
 	if s.urlRepository != nil {
 		return s.urlRepository
 	}
 
-	s.urlRepository = &UrlRepository{
+	s.urlRepository = &URLRepository{
 		store: s,
-		urls:  make(map[string]*model.Url),
+		urls:  make(map[string]*model.URL),
 	}
 
 	return s.urlRepository

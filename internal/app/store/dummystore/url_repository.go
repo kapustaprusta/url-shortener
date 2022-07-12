@@ -5,20 +5,20 @@ import (
 	"github.com/kapustaprusta/url-shortener/internal/app/store"
 )
 
-type UrlRepository struct {
+type URLRepository struct {
 	store *Store
-	urls  map[string]*model.Url
+	urls  map[string]*model.URL
 }
 
-func (r *UrlRepository) Add(u *model.Url) error {
-	r.urls[u.ShortenedUrl] = u
+func (r *URLRepository) Add(u *model.URL) error {
+	r.urls[u.ShortenedURL] = u
 	u.ID = len(r.urls)
 
 	return nil
 }
 
-func (r *UrlRepository) FindByShortenedUrl(shortenedUrl string) (*model.Url, error) {
-	u, isOk := r.urls[shortenedUrl]
+func (r *URLRepository) FindByShortenedURL(shortenedRL string) (*model.URL, error) {
+	u, isOk := r.urls[shortenedRL]
 	if !isOk {
 		return nil, store.ErrRecordNotFound
 	}

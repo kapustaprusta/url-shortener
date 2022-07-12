@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	baseUrl = "www.link.com/"
+	baseURL = "www.link.com/"
 )
 
 type server struct {
@@ -40,7 +40,7 @@ func (s *server) configureRouter() {
 func (s *server) handleRoot(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		s.handleGetOriginalUrl(w, r)
+		s.handleGetOriginalURL(w, r)
 	case http.MethodPost:
 		s.handleShortenRequest(w, r)
 	default:
@@ -53,7 +53,7 @@ func (s *server) handleRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) handleShortenRequest(w http.ResponseWriter, r *http.Request) {
-	rawOriginalUrl, err := ioutil.ReadAll(r.Body)
+	rawOriginalURL, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(
 			w,
@@ -65,8 +65,8 @@ func (s *server) handleShortenRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	originalUrl := string(rawOriginalUrl)
-	_, err = url.ParseRequestURI(originalUrl)
+	originalURL := string(rawOriginalURL)
+	_, err = url.ParseRequestURI(originalURL)
 	if err != nil {
 		http.Error(
 			w,
@@ -77,20 +77,20 @@ func (s *server) handleShortenRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	url := &model.Url{
-		OriginalUrl:  originalUrl,
-		ShortenedUrl: baseUrl + originalUrl[0:len(originalUrl)/2],
+	url := &model.URL{
+		OriginalURL:  originalURL,
+		ShortenedURL: baseURL,
 	}
 
 	s.store.Url().Add(url)
 
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(url.ShortenedUrl))
+	w.Write([]byte(url.ShortenedURL))
 }
 
-func (s *server) handleGetOriginalUrl(w http.ResponseWriter, r *http.Request) {
-	shortenedUrl := r.URL.Query().Get("id")
-	if shortenedUrl == "" {
+func (s *server) handleGetOriginalURL(w http.ResponseWriter, r *http.Request) {
+	shortenedURL := r.URL.Query().Get("id")
+	if shortenedURL == "" {
 		http.Error(
 			w,
 			"The query parameter is missing",
@@ -100,7 +100,7 @@ func (s *server) handleGetOriginalUrl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	url, err := s.store.Url().FindByShortenedUrl(shortenedUrl)
+	url, err := s.store.Url().FindByShortenedURL(shortenedURL)
 	if err != nil {
 		http.Error(
 			w,
@@ -112,5 +112,5 @@ func (s *server) handleGetOriginalUrl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusTemporaryRedirect)
-	w.Header().Set("Location", url.OriginalUrl)
+	w.Header().Set("Location", url.OriginalURL)
 }

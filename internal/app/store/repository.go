@@ -4,7 +4,7 @@ import (
 	"github.com/kapustaprusta/url-shortener/internal/app/model"
 )
 
-type UrlRepository interface {
-	Add(*model.Url) error
-	FindByShortenedUrl(string) (*model.Url, error)
+type URLRepository interface {
+	Add(*model.URL) error
+	FindByShortenedURL(string) (*model.URL, error)
 }

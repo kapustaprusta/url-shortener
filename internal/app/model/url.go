@@ -1,7 +1,7 @@
 package model
 
-type Url struct {
+type URL struct {
 	ID           int
-	OriginalUrl  string
-	ShortenedUrl string
+	OriginalURL  string
+	ShortenedURL string
 }
