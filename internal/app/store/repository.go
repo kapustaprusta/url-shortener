@@ -6,5 +6,5 @@ import (
 
 type URLRepository interface {
 	Add(*model.URL) error
-	FindById(int) (*model.URL, error)
+	FindByID(int) (*model.URL, error)
 }

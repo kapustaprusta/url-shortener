@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"strconv"
 
+	"github.com/gorilla/mux"
 	"github.com/kapustaprusta/url-shortener/internal/app/model"
 	"github.com/kapustaprusta/url-shortener/internal/app/store"
 )
@@ -15,13 +16,13 @@ const (
 )
 
 type server struct {
-	router *http.ServeMux
+	router *mux.Router
 	store  store.Store
 }
 
 func newServer(store store.Store) *server {
 	s := &server{
-		router: http.NewServeMux(),
+		router: mux.NewRouter(),
 		store:  store,
 	}
 
@@ -105,14 +106,14 @@ func (s *server) handleGetOriginalURL(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(
 			w,
-			"Bad shortened URL ID",
+			"Invalid shortened URL ID",
 			http.StatusBadRequest,
 		)
 
 		return
 	}
 
-	url, err := s.store.URL().FindById(shortenedURLId)
+	url, err := s.store.URL().FindByID(shortenedURLId)
 	if err != nil {
 		http.Error(
 			w,

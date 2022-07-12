@@ -17,7 +17,7 @@ func (r *URLRepository) Add(u *model.URL) error {
 	return nil
 }
 
-func (r *URLRepository) FindById(shortenedURLId int) (*model.URL, error) {
+func (r *URLRepository) FindByID(shortenedURLId int) (*model.URL, error) {
 	u, isOk := r.urls[shortenedURLId]
 	if !isOk {
 		return nil, store.ErrRecordNotFound
