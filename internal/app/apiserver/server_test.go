@@ -70,6 +70,7 @@ func TestServerHandleShortenRequest(t *testing.T) {
 
 				result := response.Result()
 				resultBody, err := ioutil.ReadAll(result.Body)
+				result.Body.Close()
 
 				require.NoError(t, err)
 				require.NotNil(t, result)
@@ -150,6 +151,7 @@ func TestServerHandleGetOriginalURL(t *testing.T) {
 
 				result := response.Result()
 				resultBody, err := ioutil.ReadAll(result.Body)
+				result.Body.Close()
 
 				require.NoError(t, err)
 				require.NotNil(t, result)
