@@ -111,6 +111,6 @@ func (s *server) handleGetOriginalURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusTemporaryRedirect)
 	w.Header().Set("Location", url.OriginalURL)
+	w.WriteHeader(http.StatusTemporaryRedirect)
 }
